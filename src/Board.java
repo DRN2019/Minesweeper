@@ -1,14 +1,14 @@
 import java.lang.Math;
 
 public class Board{
-    int mineCt; // Number of mines
-    int boardX; // Width of Board
-    int boardY; // Height of Board
-    int minesLeft;
+    private int mineCt; // Number of mines
+    private int boardX; // Width of Board
+    private int boardY; // Height of Board
+    private int minesLeft;
 
-    boolean[][] board = new boolean[boardX][boardY]; // 2D Boolean Array of which tiles have mines
-    boolean[][] visible = new boolean[boardX][boardY]; // 2D Boolean Array of which tiles are uncovered
-    boolean[][] flagged = new boolean[boardX][boardY];
+    private boolean[][] board = new boolean[boardX][boardY]; // 2D Boolean Array of which tiles have mines
+    private boolean[][] visible = new boolean[boardX][boardY]; // 2D Boolean Array of which tiles are uncovered
+    private boolean[][] flagged = new boolean[boardX][boardY]; // 2D Boolean Array of which tiles are flagged
 
     public Board(int mineCt, int boardX, int boardY){
         // Initializing vars
@@ -17,14 +17,18 @@ public class Board{
         this.boardY = boardY;
     }
 
-    // Initializes the mines in the board
-    public void initMines(){
+    // Initializes the mines in the board AFTER user's first move to avoid losing on first click
+    // Ensures that the tiles immediately surrounding the first tile will be clear (4-9 guaranteed)
+    // initX = first tile X pos; initY = first tile Y pos
+    public void initMines(int initX, int initY){
         int count = 0;
         while (count < mineCt){
             int index = (int) Math.round(Math.random()*256);
-            if(!board[index/boardX][index%boardX]){
-                board[index/boardX][index%boardX] = true;
-                count--;
+            if(!(Math.abs(index/boardX - initX) <= 1 && Math.abs(index%boardX - initY) <= 1)) {
+                if (!board[index / boardX][index % boardX]) {
+                    board[index / boardX][index % boardX] = true;
+                    count--;
+                }
             }
         }
     }
@@ -100,12 +104,11 @@ public class Board{
 
     // Allows the user to flag or unflag a tile as a mine
     public void flag(int x, int y){
-        // If already flagged
-        if(minesLeft > 0) {
-            if (flagged[x][y]) {
-                flagged[x][y] = false;
-                minesLeft++;
-            } else {
+        if (flagged[x][y]) {
+            flagged[x][y] = false;
+            minesLeft++;
+        } else {
+            if (minesLeft > 0) {
                 flagged[x][y] = true;
                 minesLeft--;
             }
