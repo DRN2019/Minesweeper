@@ -4,17 +4,23 @@ public class Board{
     private int mineCt; // Number of mines
     private int boardX; // Width of Board
     private int boardY; // Height of Board
-    private int minesLeft;
+    private int minesLeft; // Number of mines left
+    private int firstX;
+    private int firstY;
 
     private boolean[][] board = new boolean[boardX][boardY]; // 2D Boolean Array of which tiles have mines
     private boolean[][] visible = new boolean[boardX][boardY]; // 2D Boolean Array of which tiles are uncovered
     private boolean[][] flagged = new boolean[boardX][boardY]; // 2D Boolean Array of which tiles are flagged
+    private int[][] surrounding = new int[boardX][boardY]; // 2D int Array of how many mines surround a tile;
+    // if surrounding[a][b] has a value of -1, then that means it has a mine on it (might need)
 
-    public Board(int mineCt, int boardX, int boardY){
+    public Board(int mineCt, int boardX, int boardY, int firstX, int firstY){
         // Initializing vars
         this.mineCt = mineCt;
         this.boardX = boardX;
         this.boardY = boardY;
+        this.firstX = firstX;
+        this.firstY = firstY;
     }
 
     // Initializes the mines in the board AFTER user's first move to avoid losing on first click
@@ -51,6 +57,11 @@ public class Board{
     // Return function for flagged tiles
     public boolean[][] getFlagged(){
         return flagged;
+    }
+
+    // Return function for surrounding numbers
+    public int[][] getSurrounding(){
+        return surrounding;
     }
 
     // Function that counts the number of mines surrounding a tile
@@ -115,5 +126,18 @@ public class Board{
         }
     }
 
+    // Initializes surrounding 2D array
+    public void initSurrounding(){
+        for (int i = 0; i < boardX; i++){
+            for (int j = 0; j < boardY; j++){
+                if(board[i][j]){
+                    surrounding[i][j] = -1;
+                }
+                else{
+                    surrounding[i][j] = surround(i, j);
+                }
+            }
+        }
+    }
 
 }

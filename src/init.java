@@ -49,6 +49,7 @@ public class init extends JFrame implements MouseListener, MouseMotionListener {
     private boolean overEasy;
     private boolean overMedium;
     private boolean overHard;
+    private boolean startMenu;
 
     JLabel mousePosition;
     @Override public void mouseClicked(MouseEvent e) {
@@ -100,47 +101,48 @@ public class init extends JFrame implements MouseListener, MouseMotionListener {
 
     }
 
+    // Paints the JPanel
     public void paint(Graphics g) {
         Image temp;
         Image easy;
         Image med;
         Image hard;
 
-        if(overEasy){
-            temp = easyDownIcon.getImage();
-            easy = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-            easyDownIcon = new ImageIcon(easy);
-        }
-        else{
-            temp = easyIcon.getImage();
-            easy = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-            easyIcon = new ImageIcon(easy);
-        }
-        g.drawImage(easy, 250, 150, this);
+        if(startMenu) {
+            if (overEasy) {
+                temp = easyDownIcon.getImage();
+                easy = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+                easyDownIcon = new ImageIcon(easy);
+            } else {
+                temp = easyIcon.getImage();
+                easy = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+                easyIcon = new ImageIcon(easy);
+            }
+            g.drawImage(easy, 250, 150, this);
 
-        if(overMedium){
-            temp = medDownIcon.getImage();
-            med = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-            medDownIcon = new ImageIcon(med);
-        }
-        else{
-            temp = medIcon.getImage();
-            med = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-            medIcon = new ImageIcon(med);
-        }
-        g.drawImage(med, 250, 275, this);
+            if (overMedium) {
+                temp = medDownIcon.getImage();
+                med = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+                medDownIcon = new ImageIcon(med);
+            } else {
+                temp = medIcon.getImage();
+                med = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+                medIcon = new ImageIcon(med);
+            }
+            g.drawImage(med, 250, 275, this);
 
-        if(overHard){
-            temp = hardDownIcon.getImage();
-            hard = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-            hardDownIcon = new ImageIcon(hard);
+            if (overHard) {
+                temp = hardDownIcon.getImage();
+                hard = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+                hardDownIcon = new ImageIcon(hard);
+            } else {
+                temp = hardIcon.getImage();
+                hard = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+                hardIcon = new ImageIcon(hard);
+            }
+            g.drawImage(hard, 250, 400, this);
         }
-        else{
-            temp = hardIcon.getImage();
-            hard = temp.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-            hardIcon = new ImageIcon(hard);
-        }
-        g.drawImage(hard, 250, 400, this);
+
     }
     public static void main(String[] args){
         // Local Declarations
@@ -157,6 +159,7 @@ public class init extends JFrame implements MouseListener, MouseMotionListener {
          */
         // Start Game
         init Main = new init();
+        Main.startMenu = true;
         Main.start();
     }
 
